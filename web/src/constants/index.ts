@@ -1,0 +1,1 @@
+export { weekDaysData } from './data';
