@@ -16,7 +16,7 @@ export const twitchApi = createApi({
   endpoints: (builder) => ({
     getTopGames: builder.query<GetTopGamesResponse, void>({ query: () => 'games/top?first=100' }),
     getGamesByName: builder.query<GetGamesByNameResponse, string>({ query: (gameName) => `games?name=${gameName}` }),
-  })
+  }),
 });
 
 export const {

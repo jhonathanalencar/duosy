@@ -36,7 +36,7 @@ export function DefaultLayout(){
           )}
         </button>
       </div>
-      <div className="flex-1 bg-[#2b2b2b] overflow-auto hide-scrollbar">
+      <div className="flex-1 bg-blackGradient overflow-auto hide-scrollbar">
         <Outlet />
       </div>
     </div>

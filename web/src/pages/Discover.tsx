@@ -2,16 +2,16 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { useGetTopGamesQuery } from "../redux/services/twitch";
-import { selectGames, setCurrentGames, setTopGames } from '../redux/features/gamesSlice';
+import { selectGames, setCurrentGames, setTopGames } from '../redux/features/gamesList/gamesListSlice';
 
-import { Loader, ErrorMessage, SearchBar } from "../components";
-import { Games } from "../components/Games";
+import { Loader, ErrorMessage, SearchBar, Games } from "../components";
 
 export function Discover(){
   const { data, error, isFetching } = useGetTopGamesQuery();
 
   const dispatch = useDispatch();
   const games = useSelector(selectGames);
+
   
   useEffect(() =>{
     if(data){

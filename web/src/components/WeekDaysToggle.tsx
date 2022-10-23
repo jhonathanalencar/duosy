@@ -4,11 +4,17 @@ import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import { cn } from "../utils/className";
 import { weekDaysData } from "../constants";
 
-export function WeekDaysToggle(){
-  const [weekDays, setWeekDays] = useState<number[]>([]);
+interface WeekDaysToggleProps{
+  weekDays: number[];
+  setWeekDays: React.Dispatch<React.SetStateAction<number[]>>;
+}
+
+export function WeekDaysToggle({ weekDays, setWeekDays }: WeekDaysToggleProps){
 
   return(
     <ToggleGroup.Root
+      id="weekDays"
+      aria-label="When do you usually play?"
       type="multiple"
       onValueChange={(value) => setWeekDays(value.map(Number))}
       className="flex gap-2 items-center justify-center flex-wrap sm:flex-nowrap"

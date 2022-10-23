@@ -1,4 +1,5 @@
-import { InputHTMLAttributes, LabelHTMLAttributes, ReactNode } from "react"
+import { InputHTMLAttributes, LabelHTMLAttributes, ReactNode } from "react";
+import { Slot } from "@radix-ui/react-slot";
 
 interface InputFieldRootProps{
   children: ReactNode;
@@ -15,16 +16,19 @@ function InputFieldRoot({ children, className }: InputFieldRootProps){
 
 interface InputFieldLabelProps extends LabelHTMLAttributes<HTMLLabelElement>{
   children: ReactNode;
+  className?: string;
+  asChild?: boolean;
 }
 
-function InputFieldLabel({ children, ...rest }: InputFieldLabelProps){
+function InputFieldLabel({ children, className, asChild, ...rest }: InputFieldLabelProps){
+  const Comp = asChild ? Slot : 'label';
   return(
-    <label 
+    <Comp 
       {...rest}
-      className="text-base font-semibold text-gray-300"
+      className={`text-base font-semibold text-gray-300 ${className ? className : ''}`}
     >
       {children}
-    </label>
+    </Comp>
   )
 }
 

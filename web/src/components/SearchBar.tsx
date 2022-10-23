@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { MagnifyingGlass } from 'phosphor-react';
 
 import { useGetGamesByNameQuery } from '../redux/services/twitch';
-import { selectGames, setCurrentGames } from '../redux/features/gamesSlice';
+import { selectGames, setCurrentGames } from '../redux/features/gamesList/gamesListSlice';
 
 export function SearchBar(){
   const [search, setSearch] = useState('');
@@ -43,7 +43,7 @@ export function SearchBar(){
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           disabled={false}
-          className="w-full bg-zinc-600 px-2 outline-none text-zinc-400"
+          className="w-full bg-zinc-600 px-2 outline-none text-zinc-400 focus:shadow-none"
         />
       </form>
     </div>
