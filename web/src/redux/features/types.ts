@@ -4,9 +4,9 @@ export type AdType = {
   name:  string;
   yearsPlaying: number;
   discord :  string
-  weekDays:  string
-  hourStart: number;
-  hourEnd: number;
+  weekDays:  number[];
+  hourStart: string;
+  hourEnd: string;
   useVoiceChannel: boolean;
   createdAt: Date;
 }

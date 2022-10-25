@@ -17,7 +17,7 @@ export function GameCard({
 
   if(game){
     const { id, name, box_art_url } = game;
-    const formattedBoxArtUrl = box_art_url.replace('{width}x{height}', '180x240')
+    const formattedBoxArtUrl = box_art_url.replace('{width}x{height}', '180x240');
 
     function handleClick(){
       navigate(`/games/${id}`);

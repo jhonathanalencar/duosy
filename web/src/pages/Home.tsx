@@ -1,11 +1,14 @@
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useKeenSlider } from 'keen-slider/react';
+import { ToastContainer } from 'react-toastify';
 
 import { selectAllGames, useGetGamesQuery } from '../redux/features/games/gamesSlice';
 
 import { ErrorMessage, GameCard, Loader, Logo, PublishAdBanner } from '../components';
 
 import 'keen-slider/keen-slider.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function Home(){
   const {
@@ -15,6 +18,8 @@ export function Home(){
 
   const games = useSelector(selectAllGames);
 
+  const navigate = useNavigate();
+
   const [sliderRef, instanceRef] = useKeenSlider({
     slides: { perView: 1 },
 
@@ -23,7 +28,7 @@ export function Home(){
       slides: { perView: 2, },
     },
     '(min-width: 550px)': {
-      slides: { perView: 3, },
+      slides: { perView: 3},
     },
     '(min-width: 750px)': {
       slides: { perView: 4, },
@@ -32,7 +37,7 @@ export function Home(){
       slides: { perView: 5, },
     },
     '(min-width: 1050px)': {
-      slides: { perView: 6 },
+      slides: { perView: 6, },
     },
   },
   });
@@ -53,7 +58,11 @@ export function Home(){
         <div ref={sliderRef} className="keen-slider max-w-5xl mx-auto grid grid-cols-6 gap-2 mb-12">
           {games.slice(0, 12).map((game) =>{
               return(
-                <div key={game.id} className="keen-slider__slide flex justify-center">
+                <div 
+                  key={game.id}
+                  onClick={() => navigate(`/games/${game.id}`)} 
+                  className="keen-slider__slide flex justify-center"
+                >
                   <GameCard 
                     data={game}
                   />
@@ -63,6 +72,7 @@ export function Home(){
         </div>
         <PublishAdBanner />
       </div>
+      <ToastContainer />
     </div>
   )
 }

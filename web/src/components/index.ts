@@ -12,6 +12,8 @@ import { NavbarLink } from "./NavbarLink";
 import { PublishAdForm } from "./PublishAdForm";
 import { WeekDaysToggle } from "./WeekDaysToggle";
 import { Checkbox } from "./Checkbox";
+import { AdCard } from './AdCard';
+import { AdInfo } from './AdInfo';
 
 export {
   ErrorMessage,
@@ -28,4 +30,6 @@ export {
   PublishAdForm,
   WeekDaysToggle,
   Checkbox,
+  AdCard,
+  AdInfo,
 }

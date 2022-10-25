@@ -1,6 +1,9 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { GameController } from "phosphor-react";
+import { toast } from 'react-toastify';
+
+import { createAdData, useCreateAdMutation } from '../redux/features/games/gamesSlice';
 
 import { 
   InputField, 
@@ -10,19 +13,63 @@ import {
 } from './';
 
 export function PublishAdForm(){
+  const [createAd, { isLoading }] = useCreateAdMutation();
   const [weekDays, setWeekDays] = useState<number[]>([]);
   const [useVoiceChat, setUseVoiceChat] = useState(false);
 
-  function handleCreateAd(event: FormEvent){
+  const formRef = useRef<HTMLFormElement | null>(null);
+
+  async function handleCreateAd(event: FormEvent){
     event.preventDefault();
 
     const formData = new FormData(event.target as HTMLFormElement);
-
     const data = Object.fromEntries(formData);
     
-    console.log(data);
-    console.log(weekDays);
-    console.log(useVoiceChat)
+    const newAd = {
+      name: data.nickname,
+      yearsPlaying: Number(data.years),
+      discord: data.discord,
+      hourEnd: data.hourEnd,
+      hourStart: data.hourStart,
+      weekDays,
+      useVoiceChannel: useVoiceChat,
+    } as createAdData;
+
+    const {
+      useVoiceChannel,
+      yearsPlaying,
+      ...requiredFields
+    } = newAd;
+
+    const canSubmit = Object.values(requiredFields).every(Boolean) && !isLoading && requiredFields.weekDays.length > 0 && data.game;
+
+    if(canSubmit){
+      try{
+        createAd({ id: data.game as string, newAd }).unwrap();
+  
+        toast('Ad created successfully.', { 
+          type: 'success', 
+        });
+
+        formRef.current?.reset();
+        setWeekDays([]);
+        setUseVoiceChat(false);
+      }catch(error){
+        toast(
+          'The operation could not be completed. Please try again.', 
+          {
+            type: 'error',
+          }
+        );
+      }
+    }else{
+      toast(
+        'Please fill out all required fields.', 
+        {
+          type: 'warning',
+        }
+      );
+    }
   }
 
   return(
@@ -30,7 +77,7 @@ export function PublishAdForm(){
       <Dialog.Overlay className="flex h-full absolute z-10 inset-0 p-4 bg-duosy-black-500/70 overflow-auto">
         <Dialog.Content className="flex flex-1 flex-col gap-4 items-center justify-center bg-duosy-black-400 p-4 rounded h-fit max-w-xl m-auto">
           <Dialog.Title className="text-gray-200 text-3xl font-bold self-start">Publish an ad</Dialog.Title>
-          <form onSubmit={handleCreateAd} className="flex flex-1 flex-col w-full gap-4">
+          <form onSubmit={handleCreateAd} ref={formRef} className="flex flex-1 flex-col w-full gap-4">
             <InputField.Root>
               <InputField.Label htmlFor="game">Game</InputField.Label>
               <GameSelect />
@@ -43,6 +90,7 @@ export function PublishAdForm(){
                 name="nickname"
                 type="text"
                 placeholder="Your nickname"
+                required
               />
             </InputField.Root>
             <div className="w-full flex flex-col items-center gap-4 sm:flex-row">
@@ -53,6 +101,7 @@ export function PublishAdForm(){
                   name="years"
                   type="number"
                   placeholder="It is ok to be zero"
+                  required
                 />
               </InputField.Root>
 
@@ -63,6 +112,7 @@ export function PublishAdForm(){
                   name="discord"
                   type="text"
                   placeholder="User#0000"
+                  required
                 />
               </InputField.Root>
             </div>
@@ -87,6 +137,7 @@ export function PublishAdForm(){
                       name="hourStart"
                       type="time"
                       placeholder="from"
+                      required
                     />
                     <InputField.Label className="sr-only" htmlFor="hourEnd">Hour End</InputField.Label>
                     <InputField.Input 
@@ -94,6 +145,7 @@ export function PublishAdForm(){
                       name="hourEnd"
                       type="time"
                       placeholder="to"
+                      required
                     />
                 </fieldset>
               </InputField.Root>
@@ -110,11 +162,12 @@ export function PublishAdForm(){
                 type="button"
                 className="font-semibold text-base text-gray-100 bg-duosy-violet-300 hover:bg-duosy-violet-400 transition-colors py-2 px-4 rounded outline-none"
               >
-                Cancel
+                Close
               </Dialog.Close>
               <button
                 type="submit"
-                className="flex items-center gap-2 py-2 px-4 rounded bg-duosy-red-400 hover:bg-duosy-red-500 transition-colors outline-none"
+                disabled={isLoading}
+                className="flex items-center gap-2 py-2 px-4 rounded bg-duosy-red-400 hover:bg-duosy-red-500 disabled:bg-duosy-red-400 disabled:opacity-70 disabled:cursor-not-allowed transition-colors outline-none"
               >
                 <GameController weight="bold" className="h-6 w-6 text-gray-200" />
                 <span className="text-gray-200 font-semibold">Find duo</span>

@@ -29,7 +29,7 @@ export function GameSelect(){
 
             {games.sort((a, b) => a.title.localeCompare(b.title, 'en')).map((game) =>{
               return(
-                <Select.Item key={game.id} value={game.title} className="h-8 w-full sm:max-w-[545px] overflow-hidden py-1 px-2 text-gray-300 hover:bg-gray-700 focus:bg-gray-700 outline-none cursor-pointer">
+                <Select.Item key={game.id} value={game.id} className="h-8 w-full sm:max-w-[545px] overflow-hidden py-1 px-2 text-gray-300 hover:bg-gray-700 focus:bg-gray-700 outline-none cursor-pointer">
                   <Select.ItemText className='block truncate'>{game.title.substring(0, 25)}</Select.ItemText>
                 </Select.Item>
               )
