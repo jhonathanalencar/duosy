@@ -11,3 +11,7 @@ export type GetTopGamesResponse = {
 export type GetGamesByNameResponse = {
   data: Game[];
 }
+
+export type GetGameByIdResponse = {
+  data: Game[];
+}

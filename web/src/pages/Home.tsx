@@ -56,7 +56,7 @@ export function Home(){
         <Logo />
         <h2 className="text-xl md:text-2xl font-bold text-white tracking-wider text-center mb-16">Find the perfect <span className="text-duosy-blue-400">duo</span> for you</h2>
         <div ref={sliderRef} className="keen-slider max-w-5xl mx-auto grid grid-cols-6 gap-2 mb-12">
-          {games.slice(0, 12).map((game) =>{
+          {games.sort((a, b) => b._count.ads - a._count.ads).slice(0, 12).map((game) =>{
               return(
                 <div 
                   key={game.id}

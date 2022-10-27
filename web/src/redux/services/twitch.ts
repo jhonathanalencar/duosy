@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { GetGamesByNameResponse, GetTopGamesResponse } from './types';
+import { GetGameByIdResponse, GetGamesByNameResponse, GetTopGamesResponse } from './types';
 
 export const twitchApi = createApi({
   reducerPath: 'twitchApi',
@@ -14,12 +14,20 @@ export const twitchApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getTopGames: builder.query<GetTopGamesResponse, void>({ query: () => 'games/top?first=100' }),
-    getGamesByName: builder.query<GetGamesByNameResponse, string>({ query: (gameName) => `games?name=${gameName}` }),
+    getTopGames: builder.query<GetTopGamesResponse, void>({ 
+      query: () => 'games/top?first=100' 
+    }),
+    getGamesByName: builder.query<GetGamesByNameResponse, string>({
+      query: (gameName) => `games?name=${gameName}` 
+    }),
+    getGameById: builder.query<GetGameByIdResponse, string>({
+      query: (id) => `games?id=${id}`,
+    }),
   }),
 });
 
 export const {
   useGetTopGamesQuery,
   useGetGamesByNameQuery,
+  useGetGameByIdQuery,
 } = twitchApi;

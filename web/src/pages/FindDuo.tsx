@@ -1,15 +1,17 @@
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { selectGameById, useGetAdsQuery } from '../redux/features/games/gamesSlice';
+import { selectGameById, useGetAdsQuery, useCreateGameMutation } from '../redux/features/games/gamesSlice';
 import { RootState } from '../redux/store';
 
 import { AdCard, ErrorMessage, Loader } from '../components';
-
+import { useGetGameByIdQuery } from '../redux/services/twitch';
+import { useEffect } from 'react';
 
 export function FindDuo(){
   const { gameId } = useParams();
-  
+  const [createGame, { isLoading: isLoadingCreateGame }] = useCreateGameMutation();
+
   if(!gameId){
     return <ErrorMessage />;
   }
@@ -19,13 +21,30 @@ export function FindDuo(){
     isLoading,
   } = useGetAdsQuery(gameId);
 
+  const { data: game, isLoading: isLoadingGetGameById } = useGetGameByIdQuery(gameId);
+
   const existingGame = useSelector((state: RootState) => selectGameById(state, gameId));
 
-  if(isLoading){
-    return <Loader /> 
+  useEffect(() =>{
+    if(game && !existingGame){
+      try{
+        createGame({
+          id: game.data[0].id,
+          title: game.data[0].name,
+          boxArtUrl: game.data[0].box_art_url,
+        }).unwrap();
+      }catch(error){
+        console.log(error);
+      }
+    }
+  }, [game]);
+
+  
+  if(isLoading || isLoadingCreateGame || isLoadingGetGameById){
+    return <Loader />;
   }
 
-  if(!existingGame){
+  if(!existingGame || !ads){
     return <ErrorMessage />;
   }
 
@@ -34,7 +53,7 @@ export function FindDuo(){
 
   return(
     <section className='w-full min-h-full flex flex-col gap-20 md:gap-32'>
-      <header className="w-full h-24 md:h-32 flex gap-4 bg-gradient-to-r from-[#121214] to-transparent relative top-0 left-0">
+      <header className="w-full h-24 md:h-32 flex gap-4 bg-gradient-to-r from-[#121214] to-transparent relative top-0 left-0 animate-slidedown">
         <div className="w-full absolute bottom-0 left-4 flex gap-4 items-end md:py-4">
           <img 
             src={formattedBoxArtUrl} 
@@ -48,11 +67,15 @@ export function FindDuo(){
         </div>
       </header>
       <div className="w-full h-full flex justify-center flex-wrap gap-4 mx-auto max-w-5xl px-4 pt-4 pb-12">
-        {ads?.map((ad) =>{
-          return(
-            <AdCard key={ad.id} ad={ad} />
-          )
-        })}
+        {ads.length > 0 ? (
+          ads.map((ad) =>{
+            return(
+              <AdCard key={ad.id} ad={ad} />
+            )
+          })
+        ) : (
+          <ErrorMessage message="No ads have been published yet" />
+        )}
       </div>
     </section>
   )

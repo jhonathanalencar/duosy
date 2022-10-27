@@ -1,12 +1,20 @@
+import * as Dialog from '@radix-ui/react-dialog';
 import { GameController } from "phosphor-react";
-import { AdType } from "../redux/features/types"
+import { formatDistanceToNow } from 'date-fns';
+
+import { AdType } from "../redux/features/types";
+
 import { AdInfo } from "./AdInfo";
+import { DiscordModal } from './DiscordModal';
+import { useState } from 'react';
 
 interface AdCardProps{
   ad: AdType;
 }
 
 export function AdCard({ ad }: AdCardProps){
+  const [isOpen, setIsOpen] = useState(false);
+
   const displayWeekDays: { [key: number]: string } = {
     0: 'Sun',
     1: 'Mon',
@@ -24,7 +32,7 @@ export function AdCard({ ad }: AdCardProps){
   }
 
   return(
-    <div className="bg-duosy-black-400 rounded p-4 flex flex-col items-start border-t-2 border-duosy-violet-400 gap-3">
+    <div className="bg-duosy-black-400 rounded p-4 flex flex-col items-start border-t-2 border-duosy-violet-400 gap-3 animate-slideup">
       <AdInfo 
         title="Nickname"
         description={ad.name}
@@ -47,10 +55,18 @@ export function AdCard({ ad }: AdCardProps){
         description={`${formatToProperVerb(ad.weekDays.length, ['day', 'days'])}・${ad.hourStart} - ${ad.hourEnd}`}
       />
 
-      <button className="inline-flex items-center mx-auto bg-duosy-red-400 py-2 px-4 rounded mt-2 gap-2 hover:bg-duosy-red-500 transition-colors">
-        <GameController className="w-6 h-6 text-gray-200" />
-        <span className="text-gray-200 font-semibold">Connect</span>
-      </button>
+      <span className="font-semibold text-gray-400">
+        {formatDistanceToNow(new Date(ad.createdAt), { addSuffix: true })}
+      </span>
+
+      <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog.Trigger className="inline-flex items-center mx-auto bg-duosy-red-400 py-2 px-4 rounded mt-2 gap-2 hover:bg-duosy-red-500 transition-colors">
+          <GameController className="w-6 h-6 text-gray-200" />
+          <span className="text-gray-200 font-semibold">Connect</span>
+        </Dialog.Trigger>
+
+        <DiscordModal discord={ad.discord} />
+      </Dialog.Root>
     </div>
   )
 }

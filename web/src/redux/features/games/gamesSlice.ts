@@ -23,6 +23,12 @@ export interface createAdData{
   useVoiceChannel: boolean;
 }
 
+interface createGameData{
+  id: string; 
+  title: string; 
+  boxArtUrl: string;
+}
+
 const gamesAdapter = createEntityAdapter<GameWithAd>({
   sortComparer: (a, b) => b._count.ads - a._count.ads,
 });
@@ -50,6 +56,21 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
             ]
           : [{type: 'Game', id: "LIST"}]
     }),
+    createGame: builder.mutation<GameWithAd, createGameData>({
+      query: ({ id, title, boxArtUrl }) => ({
+        url: 'games',
+        method: 'POST',
+        body: {
+          id,
+          title,
+          boxArtUrl,
+        }
+      }),
+      invalidatesTags: (result, error, arg) =>[
+        {type: 'Game', id: "LIST"},
+        {type: 'Ad', id: "LIST"}
+      ]
+    }),
     createAd: builder.mutation<GameWithAd, { id: string, newAd: createAdData }>({
       query: ({id, ...newAd}) => ({
         url: `games/${id}/ads`,
@@ -64,12 +85,27 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
           yearsPlaying: newAd.newAd.yearsPlaying
         },
       }),
-      invalidatesTags: (result, error, arg) => [
-        { type: 'Game', id: arg.id }
-      ]
+      async onQueryStarted({ id, newAd }, { dispatch, queryFulfilled }){
+        const patchResult = dispatch(
+          extendedApiSlice.util.updateQueryData('getGames', undefined, (draft) =>{
+            const game = draft.entities[id];
+            if(game){
+              game._count.ads += 1;
+            }
+          })
+        );
+        try{
+          await queryFulfilled;
+        }catch{
+          patchResult.undo();
+        }
+      },
     }),
     getAds: builder.query<AdType[], string>({
       query: (gameId) => `/games/${gameId}/ads`,
+      providesTags: (result, error, arg) => [
+        {type: 'Ad', id: "LIST"}
+      ]
     }),
   }),
 });
@@ -78,6 +114,7 @@ export const {
   useGetGamesQuery,
   useGetAdsQuery,
   useCreateAdMutation,
+  useCreateGameMutation,
 } = extendedApiSlice;
 
 export const selectGamesResult = extendedApiSlice.endpoints.getGames.select();
