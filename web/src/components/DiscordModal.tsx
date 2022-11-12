@@ -1,13 +1,89 @@
+import { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { X } from 'phosphor-react';
+import { useSelector } from 'react-redux';
+import { CircleNotch, X } from 'phosphor-react';
+import { toast } from 'react-toastify';
+
+import { selectUser } from '../redux/features/user/userSlice';
+import { SendWhisperModal } from './SendWhisperModal';
+import { useGetDiscordQuery } from '../redux/features/games/gamesSlice';
+import axios, { AxiosError } from 'axios';
 
 interface DiscorModalProps{
-  discord: string;
+  adId: string;
+  twitchId: string;
+  handleCloseModal: () => void;
 }
 
-export function DiscordModal({ discord }: DiscorModalProps){
+export function DiscordModal({ 
+  adId,
+  twitchId, 
+  handleCloseModal 
+}: DiscorModalProps){
+  const {
+    data: adInfo,
+    isLoading,
+  } = useGetDiscordQuery(adId);
+
+  const { user } = useSelector(selectUser);
+
+  const [isSending, setIsSending] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  async function handleSendWhisper(message: string){
+    if(!user){ return; }
+    
+    try{
+      setIsSending(true);
+
+      await axios.post(`https://api.twitch.tv/helix/whispers?from_user_id=${user.id}&to_user_id=${twitchId}`, {
+        message,
+      }, {
+        headers: {
+          'Client-Id': import.meta.env.VITE_TWITCH_CLIENT_ID,
+          'Authorization': `Bearer ${user.accessToken}`,
+        },
+      });
+      
+      toast('Message sent', {
+        type: 'success',
+      });
+      
+    }catch(error: any){
+      console.log(error);
+      if(error instanceof AxiosError){
+        if(error.response?.data.message === 'the sender does not have a verified phone number'){
+          toast(
+            'Message could not be sent. You must have a verified phone number.', {
+            type: 'error',
+          });
+        }else if(error.response?.data.message === "The recipient's settings prevent this sender from whispering them"){
+          toast(
+            'Message could not be sent. The user block whispers from strangers.', {
+            type: 'error',
+          });
+        }
+      }else{
+        toast('Message could not be sent', {
+          type: 'error',
+        });
+      }
+
+    }finally{
+      setIsSending(false);
+    }
+  }
+
   function handleCopyToClipboard(){
-    navigator.clipboard.writeText(discord);
+    if(!adInfo){ return; }
+
+    navigator.clipboard.writeText(adInfo.discord);
+
+    toast('Discord code copied to clipboard', {
+      type: 'info',
+    });
+
+    handleCloseModal();
   }
 
   return(
@@ -23,13 +99,49 @@ export function DiscordModal({ discord }: DiscorModalProps){
           <Dialog.Description className="text-lg font-semibold text-gray-300">
             Add on <span className="text-duosy-blue-400">discord</span>
           </Dialog.Description>
-          <button 
-            type="button"
-            onClick={handleCopyToClipboard}
-            className="w-full bg-duosy-black-500 rounded p-1 text-gray-400 text-center mt-2 cursor-pointer"
-          >
-            {discord}
-          </button>
+
+          {isLoading ? (
+            <div className="w-full bg-duosy-black-500 rounded p-1 flex item-center justify-center">
+              <CircleNotch 
+                weight="bold"
+                className="w-6 h-6 text-gray-400 animate-spin"
+              />
+            </div>
+          ) : (
+            !adInfo ? (
+              <div className="w-full bg-duosy-black-500 rounded p-1 flex item-center justify-center">
+                <span 
+                  className="text-gray-400 font-semibold"
+                >
+                  Not found
+                </span>
+              </div>
+            ) : (
+              <button 
+                type="button"
+                onClick={handleCopyToClipboard}
+                className="w-full bg-duosy-black-500 rounded p-1 text-gray-400 text-center mt-2 cursor-pointer"
+              >
+                {adInfo.discord}
+              </button>
+            )
+          )}
+
+          {user && adInfo && (
+            <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
+              <Dialog.Trigger
+                className="text-gray-200 font-semibold bg-violet-500 hover:bg-violet-600 transition-colors p-1 mt-2 w-full rounded"
+              >
+                Send Whisper
+              </Dialog.Trigger>
+
+              <SendWhisperModal 
+                name={adInfo.name}
+                handleSendWhisper={handleSendWhisper}
+                isLoading={isSending}
+              />
+            </Dialog.Root>
+          )}
         </Dialog.Content>
       </Dialog.Overlay>
     </Dialog.Portal>

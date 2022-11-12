@@ -15,3 +15,10 @@ export type GetGamesByNameResponse = {
 export type GetGameByIdResponse = {
   data: Game[];
 }
+
+export type SendWhisperData = {
+  accessToken: string;
+  authenticatedUserId: string;
+  targetUserId: string;
+  message: string;
+}

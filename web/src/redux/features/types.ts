@@ -1,6 +1,7 @@
 export type AdType = {
   id:  string;
   gameId:  string;
+  twitchId: string;
   name:  string;
   yearsPlaying: number;
   discord :  string

@@ -1,9 +1,11 @@
 import { FormEvent, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import * as Dialog from '@radix-ui/react-dialog';
 import { GameController } from "phosphor-react";
 import { toast } from 'react-toastify';
 
 import { createAdData, useCreateAdMutation } from '../redux/features/games/gamesSlice';
+import { selectUser } from '../redux/features/user/userSlice';
 
 import { 
   InputField, 
@@ -13,6 +15,8 @@ import {
 } from './';
 
 export function PublishAdForm(){
+  const { user } = useSelector(selectUser);
+
   const [createAd, { isLoading }] = useCreateAdMutation();
   const [weekDays, setWeekDays] = useState<number[]>([]);
   const [useVoiceChat, setUseVoiceChat] = useState(false);
@@ -21,12 +25,15 @@ export function PublishAdForm(){
 
   async function handleCreateAd(event: FormEvent){
     event.preventDefault();
-
+ 
+    if(!user){ return; }
+    
     const formData = new FormData(event.target as HTMLFormElement);
     const data = Object.fromEntries(formData);
-    
+ 
     const newAd = {
       name: data.nickname,
+      twitchId: user.id,
       yearsPlaying: Number(data.years),
       discord: data.discord,
       hourEnd: data.hourEnd,
@@ -34,7 +41,7 @@ export function PublishAdForm(){
       weekDays,
       useVoiceChannel: useVoiceChat,
     } as createAdData;
-
+  
     const {
       useVoiceChannel,
       yearsPlaying,

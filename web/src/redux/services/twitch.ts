@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { GetGameByIdResponse, GetGamesByNameResponse, GetTopGamesResponse } from './types';
+import { 
+  GetGameByIdResponse, 
+  GetGamesByNameResponse, 
+  GetTopGamesResponse,
+  SendWhisperData, 
+} from './types';
 
 export const twitchApi = createApi({
   reducerPath: 'twitchApi',
@@ -23,6 +28,19 @@ export const twitchApi = createApi({
     getGameById: builder.query<GetGameByIdResponse, string>({
       query: (id) => `games?id=${id}`,
     }),
+    sendWhisper: builder.mutation<void, SendWhisperData>({
+      query: ({ authenticatedUserId, targetUserId, message, accessToken }) => ({
+        url: `whispers?from_user_id=${authenticatedUserId}&to_user_id=${targetUserId}`,
+        method: 'POST',
+        body: {
+          message,
+        },
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Client-Id': import.meta.env.VITE_TWITCH_CLIENT_ID,
+        }
+      })
+    })
   }),
 });
 
@@ -30,4 +48,5 @@ export const {
   useGetTopGamesQuery,
   useGetGamesByNameQuery,
   useGetGameByIdQuery,
+  useSendWhisperMutation,
 } = twitchApi;

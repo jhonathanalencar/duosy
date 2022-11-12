@@ -24,7 +24,7 @@ export function FindDuo(){
   const { data: game, isLoading: isLoadingGetGameById } = useGetGameByIdQuery(gameId);
 
   const existingGame = useSelector((state: RootState) => selectGameById(state, gameId));
-
+  
   useEffect(() =>{
     if(game && !existingGame){
       try{

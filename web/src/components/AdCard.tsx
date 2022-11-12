@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { GameController } from "phosphor-react";
 import { formatDistanceToNow } from 'date-fns';
@@ -6,7 +7,6 @@ import { AdType } from "../redux/features/types";
 
 import { AdInfo } from "./AdInfo";
 import { DiscordModal } from './DiscordModal';
-import { useState } from 'react';
 
 interface AdCardProps{
   ad: AdType;
@@ -31,6 +31,10 @@ export function AdCard({ ad }: AdCardProps){
     return value > 1 ? `${value} ${verbs[1]}` : `${value} ${verbs[0]}`;
   }
 
+  function handleCloseModal(){
+    setIsOpen(false);
+  }
+  
   return(
     <div className="bg-duosy-black-400 rounded p-4 flex flex-col items-start border-t-2 border-duosy-violet-400 gap-3 animate-slideup">
       <AdInfo 
@@ -65,7 +69,13 @@ export function AdCard({ ad }: AdCardProps){
           <span className="text-gray-200 font-semibold">Connect</span>
         </Dialog.Trigger>
 
-        <DiscordModal discord={ad.discord} />
+        {isOpen && (
+          <DiscordModal 
+            adId={ad.id}
+            handleCloseModal={handleCloseModal}
+            twitchId={ad.twitchId}
+          />
+        )}
       </Dialog.Root>
     </div>
   )

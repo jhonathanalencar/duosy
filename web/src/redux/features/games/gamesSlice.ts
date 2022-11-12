@@ -15,6 +15,7 @@ export interface GameWithAd{
 
 export interface createAdData{
   name: string;
+  twitchId: string;
   yearsPlaying: number;
   discord : string;
   weekDays: number[];
@@ -77,6 +78,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: {
           discord: newAd.newAd.discord,
+          twitchId: newAd.newAd.twitchId,
           hourEnd: newAd.newAd.hourEnd,
           hourStart: newAd.newAd.hourStart,
           name: newAd.newAd.name,
@@ -92,7 +94,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
             if(game){
               game._count.ads += 1;
             }
-          })
+          }),
         );
         try{
           await queryFulfilled;
@@ -100,12 +102,18 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
           patchResult.undo();
         }
       },
+      invalidatesTags: (result, error, args) =>[
+        {type: 'Ad', id: "LIST"}
+      ]
     }),
     getAds: builder.query<AdType[], string>({
       query: (gameId) => `/games/${gameId}/ads`,
       providesTags: (result, error, arg) => [
         {type: 'Ad', id: "LIST"}
       ]
+    }),
+    getDiscord: builder.query<Pick<AdType, "discord" | "name">, string>({
+      query: (adId) => `/ads/${adId}/discord`,
     }),
   }),
 });
@@ -115,6 +123,7 @@ export const {
   useGetAdsQuery,
   useCreateAdMutation,
   useCreateGameMutation,
+  useGetDiscordQuery,
 } = extendedApiSlice;
 
 export const selectGamesResult = extendedApiSlice.endpoints.getGames.select();

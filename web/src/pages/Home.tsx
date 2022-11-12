@@ -1,14 +1,12 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useKeenSlider } from 'keen-slider/react';
-import { ToastContainer } from 'react-toastify';
 
 import { selectAllGames, useGetGamesQuery } from '../redux/features/games/gamesSlice';
 
 import { ErrorMessage, GameCard, Loader, Logo, PublishAdBanner } from '../components';
 
 import 'keen-slider/keen-slider.min.css';
-import 'react-toastify/dist/ReactToastify.css';
 
 export function Home(){
   const {
@@ -72,7 +70,6 @@ export function Home(){
         </div>
         <PublishAdBanner />
       </div>
-      <ToastContainer />
     </div>
   )
 }

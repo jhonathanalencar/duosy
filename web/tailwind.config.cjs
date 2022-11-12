@@ -25,6 +25,7 @@ module.exports = {
         blackGradient: 'linear-gradient(180deg, #020024 , #18181B )',
       },
       animation: {
+        fade: 'fade 1s ease-in-out',
         slideup: 'slideup 1s ease-in-out',
         slidedown: 'slidedown 1s ease-in-out',
         slideright: 'slideright 1s ease-in-out',
@@ -32,6 +33,10 @@ module.exports = {
         ball: 'ball 0.5s ease infinite alternate',
       },
       keyframes: {
+        fade: {
+          from: { opacity: 0},
+          to: { opacity: 1}
+        },
         slideup: {
           from: { opacity: 0, transform: 'translateY(25%)'},
           to: { opacity: 1, transform: 'none' }

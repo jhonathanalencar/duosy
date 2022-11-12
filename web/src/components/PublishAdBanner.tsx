@@ -1,10 +1,16 @@
 import { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
+import * as AlertDialog from '@radix-ui/react-alert-dialog';
 import { MagnifyingGlassPlus } from "phosphor-react";
 
 import { PublishAdForm } from './PublishAdForm';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../redux/features/user/userSlice';
+import { LoginAlert } from './LoginAlert';
 
 export function PublishAdBanner(){
+  const { user } = useSelector(selectUser);
+
   const [isOpen, setIsOpen] = useState(false);
 
   return(
@@ -14,16 +20,29 @@ export function PublishAdBanner(){
           <strong className="text-white text-lg md:text-xl text-center">Didn't find your duo?</strong>
           <span className="text-zinc-400 text-base text-center">Publish an ad to find new players!</span>
         </div>
-        <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
-          <Dialog.Trigger 
-            type="button" 
-            className="flex items-center gap-2 bg-duosy-violet-400 hover:bg-violet-500 transition-colors py-2 px-4 rounded outline-none"
-          >
-            <MagnifyingGlassPlus className="w-6 h-6 text-white" />
-            <span className="font-black text-white">Publish ad</span>
-          </Dialog.Trigger>
-          <PublishAdForm />
-        </Dialog.Root>
+        {user ? (
+          <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
+            <Dialog.Trigger 
+              type="button" 
+              className="flex items-center gap-2 bg-duosy-violet-400 hover:bg-violet-500 transition-colors py-2 px-4 rounded outline-none"
+            >
+              <MagnifyingGlassPlus className="w-6 h-6 text-white" />
+              <span className="font-black text-white">Publish ad</span>
+            </Dialog.Trigger>
+            <PublishAdForm />
+          </Dialog.Root>
+        ) : (
+          <AlertDialog.Root open={isOpen} onOpenChange={setIsOpen}>
+            <AlertDialog.Trigger
+              type="button" 
+              className="flex items-center gap-2 bg-duosy-violet-400 hover:bg-violet-500 transition-colors py-2 px-4 rounded outline-none"
+            >
+              <MagnifyingGlassPlus className="w-6 h-6 text-white" />
+              <span className="font-black text-white">Publish ad</span>
+            </AlertDialog.Trigger>
+            <LoginAlert />
+          </AlertDialog.Root>
+        )}
       </div>
     </div>
   )

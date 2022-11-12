@@ -12,7 +12,6 @@ export function Discover(){
   const dispatch = useDispatch();
   const games = useSelector(selectGames);
 
-  
   useEffect(() =>{
     if(data){
       dispatch(setTopGames({games: data.data}));
