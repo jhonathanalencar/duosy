@@ -174,7 +174,7 @@ export function useOAuth({
           }
 
           const exchangeCodeForTokenUrl = formatExchangeCodeForTokenServerUrl({
-            serverUrl: `${import.meta.env.VITE_SERVER_URL}/token`,
+            serverUrl: `${import.meta.env.VITE_SERVER_URL}token`,
             clientId,
             code,
             redirectUri,
