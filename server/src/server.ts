@@ -10,7 +10,9 @@ import {
 } from './routes';
 
 const app = express();
-app.use(cors());
+app.use(cors({ 
+  origin: process.env.APP_URL,
+}));
 app.use(express.json());
 
 app.use(gameRouter);
