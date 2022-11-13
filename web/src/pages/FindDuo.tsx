@@ -1,12 +1,12 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { selectGameById, useGetAdsQuery, useCreateGameMutation } from '../redux/features/games/gamesSlice';
 import { RootState } from '../redux/store';
+import { useGetGameByIdQuery } from '../redux/services/twitch';
 
 import { AdCard, ErrorMessage, Loader } from '../components';
-import { useGetGameByIdQuery } from '../redux/services/twitch';
-import { useEffect } from 'react';
 
 export function FindDuo(){
   const { gameId } = useParams();

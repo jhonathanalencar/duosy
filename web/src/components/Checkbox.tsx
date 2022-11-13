@@ -1,5 +1,5 @@
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
-import { Check } from "phosphor-react";
+import { Check } from 'phosphor-react';
 
 interface CheckboxProps{
   useVoiceChat: boolean;

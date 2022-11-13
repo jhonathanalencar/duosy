@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Game } from "../../services/types";
-import { RootState } from "../../store";
+import { Game } from '../../services/types';
+import { RootState } from '../../store';
 
 interface GamesState{
   currentGames: Game[];

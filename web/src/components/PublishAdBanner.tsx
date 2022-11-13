@@ -1,12 +1,13 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as AlertDialog from '@radix-ui/react-alert-dialog';
-import { MagnifyingGlassPlus } from "phosphor-react";
+import { MagnifyingGlassPlus } from 'phosphor-react';
+
+import { selectUser } from '../redux/features/user/userSlice';
 
 import { PublishAdForm } from './PublishAdForm';
-import { useSelector } from 'react-redux';
-import { selectUser } from '../redux/features/user/userSlice';
-import { LoginAlert } from './LoginAlert';
+import { LoginAlert } from './';
 
 export function PublishAdBanner(){
   const { user } = useSelector(selectUser);

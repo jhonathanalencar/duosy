@@ -1,9 +1,14 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from 'react-router-dom';
 
-import { DefaultLayout } from "./layouts/DefaultLayout";
+import { DefaultLayout } from './layouts/DefaultLayout';
 
-import { Home, Discover, FindDuo, SignIn } from "./pages";
-import { OAuthPopup } from "./pages/OAuthPopup";
+import { 
+  Home, 
+  Discover, 
+  FindDuo, 
+  SignIn, 
+  OAuthPopup, 
+} from './pages';
 
 export function Router(){
   return(
@@ -16,6 +21,8 @@ export function Router(){
         </Route>
         <Route path="login" element={<SignIn />} />
         <Route path="callback" element={<OAuthPopup />} />
+        
+        <Route path="*" element={<Home />} />
       </Route>
     </Routes>
   )

@@ -2,12 +2,13 @@ import { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useSelector } from 'react-redux';
 import { CircleNotch, X } from 'phosphor-react';
+import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
 import { selectUser } from '../redux/features/user/userSlice';
-import { SendWhisperModal } from './SendWhisperModal';
 import { useGetDiscordQuery } from '../redux/features/games/gamesSlice';
-import axios, { AxiosError } from 'axios';
+
+import { SendWhisperModal } from './';
 
 interface DiscorModalProps{
   adId: string;
@@ -50,7 +51,6 @@ export function DiscordModal({
       });
       
     }catch(error: any){
-      console.log(error);
       if(error instanceof AxiosError){
         if(error.response?.data.message === 'the sender does not have a verified phone number'){
           toast(
@@ -62,13 +62,16 @@ export function DiscordModal({
             'Message could not be sent. The user block whispers from strangers.', {
             type: 'error',
           });
+        }else{
+          toast('Message could not be sent', {
+            type: 'error',
+          });
         }
       }else{
         toast('Message could not be sent', {
           type: 'error',
         });
       }
-
     }finally{
       setIsSending(false);
     }

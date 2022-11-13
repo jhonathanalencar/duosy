@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import * as Select from '@radix-ui/react-select';
-import { CaretDoubleDown, CaretDoubleUp, CaretDown } from "phosphor-react";
+import { CaretDoubleDown, CaretDoubleUp, CaretDown } from 'phosphor-react';
 
 import { selectAllGames } from '../redux/features/games/gamesSlice';
 

@@ -1,12 +1,12 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { toast } from "react-toastify";
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { CircleNotch } from 'phosphor-react';
 
-import { useOAuth } from "../hook/useOAuth";
-import { logout, selectUser, setUser } from "../redux/features/user/userSlice";
+import { useOAuth } from '../hook/useOAuth';
+import { logout, selectUser, setUser } from '../redux/features/user/userSlice';
 
-import { Logo } from "../components";
-import { CircleNotch } from "phosphor-react";
+import { Logo } from '../components';
 
 export function SignIn(){
   const {

@@ -66,11 +66,6 @@ function closePopup(popupRef: RefObject<Window>){
   popupRef.current.close();
 }
 
-interface CleanupData{
-  intervalRef: RefObject<number>;
-  popupRef: RefObject<Window>;
-}
-
 interface EnhanceAuthorizeUrlData{
   authorizeUrl: string;
   clientId: string;
@@ -266,7 +261,7 @@ export function useOAuth({
   async function signOut(){
     try{
       setIsLoading(true);
-      await axios.post(`https://id.twitch.tv/oauth2/revoke?client_id=${clientId}&token=${accessToken}`)
+      await axios.post(`https://id.twitch.tv/oauth2/revoke?client_id=${clientId}&token=${accessToken}`);
       
       setIsError(false);
       setError(null);
@@ -278,6 +273,11 @@ export function useOAuth({
     }finally{
       setIsLoading(false);
     }
+  }
+
+  interface CleanupData{
+    intervalRef: RefObject<number>;
+    popupRef: RefObject<Window>;
   }
 
   function cleanup(props: CleanupData){

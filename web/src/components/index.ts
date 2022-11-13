@@ -14,6 +14,8 @@ import { WeekDaysToggle } from "./WeekDaysToggle";
 import { Checkbox } from "./Checkbox";
 import { AdCard } from './AdCard';
 import { AdInfo } from './AdInfo';
+import { SendWhisperModal } from "./SendWhisperModal";
+import { LoginAlert } from "./LoginAlert";
 
 export {
   ErrorMessage,
@@ -32,4 +34,6 @@ export {
   Checkbox,
   AdCard,
   AdInfo,
+  SendWhisperModal,
+  LoginAlert,
 }

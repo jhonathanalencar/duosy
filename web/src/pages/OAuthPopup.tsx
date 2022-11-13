@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Loader } from "../components";
+
+import { Loader } from '../components';
 
 interface PayloadData{
   code: string;
@@ -51,7 +52,7 @@ export function OAuthPopup(){
 
   return(
     <div>
-			<Loader text="logging in" />
+			<Loader text="logging in..." />
 		</div>
   )
 }

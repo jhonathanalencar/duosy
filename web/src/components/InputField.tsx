@@ -1,5 +1,5 @@
-import { InputHTMLAttributes, LabelHTMLAttributes, ReactNode } from "react";
-import { Slot } from "@radix-ui/react-slot";
+import { InputHTMLAttributes, LabelHTMLAttributes, ReactNode } from 'react';
+import { Slot } from '@radix-ui/react-slot';
 
 interface InputFieldRootProps{
   children: ReactNode;

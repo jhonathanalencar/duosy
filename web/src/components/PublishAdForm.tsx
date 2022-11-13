@@ -1,7 +1,7 @@
 import { FormEvent, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import * as Dialog from '@radix-ui/react-dialog';
-import { GameController } from "phosphor-react";
+import { GameController } from 'phosphor-react';
 import { toast } from 'react-toastify';
 
 import { createAdData, useCreateAdMutation } from '../redux/features/games/gamesSlice';

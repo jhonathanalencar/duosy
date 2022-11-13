@@ -1,5 +1,6 @@
-import { Game } from "../redux/services/types"
-import { GameCard } from "./GameCard";
+import { Game } from '../redux/services/types';
+
+import { GameCard } from './';
 
 interface GamesProps{
   data: Game[];

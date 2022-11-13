@@ -1,9 +1,7 @@
+import { cn } from '../utils/className';
+
 interface LogoProps{
   isSmall?: boolean;
-}
-
-function cn(...classes: string[]){
-  return classes.filter(Boolean).join(' ');
 }
 
 export function Logo({isSmall}: LogoProps){

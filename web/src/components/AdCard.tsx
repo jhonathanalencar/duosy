@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { GameController } from "phosphor-react";
+import { GameController } from 'phosphor-react';
 import { formatDistanceToNow } from 'date-fns';
 
-import { AdType } from "../redux/features/types";
+import { AdType } from '../redux/features/types';
 
-import { AdInfo } from "./AdInfo";
+import { AdInfo } from './AdInfo';
 import { DiscordModal } from './DiscordModal';
 
 interface AdCardProps{

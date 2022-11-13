@@ -1,13 +1,12 @@
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { List, X } from 'phosphor-react';
 
-import { Navbar } from '../components/Navbar';
-import { useState } from 'react';
+import { Navbar } from '../components';
 
 export function DefaultLayout(){
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [closeAnimation, setCloseAnimation] = useState('');
-
 
   function handleCloseNavbar(){
     setIsNavbarOpen(false);

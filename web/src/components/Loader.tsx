@@ -11,7 +11,7 @@ export function Loader({ text }: LoaderProps){
         <div className="w-4 h-4 rounded-full bg-[#e43f6f] animate-[ball_0.5s_0.2s_ease_infinite_alternate]" />
       </div>
       <span className="text-xl font-black text-gray-200 capitalize">
-        {`${text ?? 'Loading'}...`}
+        {`${text ?? 'Loading...'}`}
       </span>
     </div>
   )

@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { useGetTopGamesQuery } from "../redux/services/twitch";
+import { useGetTopGamesQuery } from '../redux/services/twitch';
 import { selectGames, setCurrentGames, setTopGames } from '../redux/features/gamesList/gamesListSlice';
 
-import { Loader, ErrorMessage, SearchBar, Games } from "../components";
+import { Loader, ErrorMessage, SearchBar, Games } from '../components';
 
 export function Discover(){
   const { data, error, isFetching } = useGetTopGamesQuery();

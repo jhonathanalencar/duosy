@@ -1,9 +1,9 @@
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
-import { selectUser } from "../redux/features/user/userSlice";
+import { selectUser } from '../redux/features/user/userSlice';
 
-import { Logo } from "./Logo";
-import { NavbarLink } from "./NavbarLink";
+import { Logo } from './';
+import { NavbarLink } from './';
 
 interface NavbarProps{
   isOpen: boolean;
@@ -40,7 +40,7 @@ export function Navbar({ isOpen, closeAnimation, handleCloseNavbar }: NavbarProp
             <div className="w-16 h-16 md:w-10 md:h-10 overflow-hidden rounded-full aspect-square bg-duosy-beige-400">
               <img 
                 src={user.profile_image_url} 
-                alt=""  
+                alt="user profile image"  
                 className="w-full h-full"
               />
             </div>

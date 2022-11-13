@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { GameWithAd } from '../redux/features/games/gamesSlice';
 
-import { Game } from "../redux/services/types";
-import { ErrorMessage } from './ErrorMessage';
+import { GameWithAd } from '../redux/features/games/gamesSlice';
+import { Game } from '../redux/services/types';
+
+import { ErrorMessage } from './';
 
 interface GameCardProps{
   game?: Game;
