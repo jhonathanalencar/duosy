@@ -181,7 +181,7 @@ export function useOAuth({
           });
         
           const response = await axios.post(exchangeCodeForTokenUrl);
-          
+          console.log(response)
           if(response.statusText !== 'OK'){
             setIsLoading(false);
             setIsError(true);
