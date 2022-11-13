@@ -36,17 +36,17 @@ export function OAuthPopup(){
       window.opener.postMessage({
         type: OAUTH_RESPONSE,
         error: 'OAuth error: An error has occured.',
-      }, 'http://localhost:5173/');
+      }, import.meta.env.VITE_APP_URL);
     }else if(checkState(payload.state)){
       window.opener.postMessage({
         type: OAUTH_RESPONSE,
         payload,
-      }, 'http://localhost:5173/');
+      }, import.meta.env.VITE_APP_URL);
     }else{
       window.opener.postMessage({
         type: OAUTH_RESPONSE,
         error: 'OAuth error: State mismatch.',
-      }, 'http://localhost:5173/');
+      }, import.meta.env.VITE_APP_URL);
     }
   }, []);
 

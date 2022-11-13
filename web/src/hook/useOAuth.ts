@@ -174,7 +174,7 @@ export function useOAuth({
           }
 
           const exchangeCodeForTokenUrl = formatExchangeCodeForTokenServerUrl({
-            serverUrl: 'http://localhost:3333/token',
+            serverUrl: `${import.meta.env.VITE_SERVER_URL}/token`,
             clientId,
             code,
             redirectUri,

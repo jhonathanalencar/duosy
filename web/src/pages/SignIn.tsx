@@ -20,7 +20,7 @@ export function SignIn(){
   } = useOAuth({
     authorizeUrl: 'https://id.twitch.tv/oauth2/authorize',
     clientId: import.meta.env.VITE_TWITCH_CLIENT_ID,
-    redirectUri: 'http://localhost:5173/callback',
+    redirectUri: `${import.meta.env.VITE_APP_URL}/callback`,
     scope: 'channel%3Amanage%3Apolls+channel%3Aread%3Apolls+user%3Amanage%3Awhispers',
   });
 

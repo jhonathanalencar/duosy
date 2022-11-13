@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3333/',
+    baseUrl: import.meta.env.VITE_SERVER_URL,
   }),
   tagTypes: ['Game', 'Ad'],
   endpoints: (builder) =>({})
