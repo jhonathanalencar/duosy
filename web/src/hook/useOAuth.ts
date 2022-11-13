@@ -181,8 +181,8 @@ export function useOAuth({
           });
         
           const response = await axios.post(exchangeCodeForTokenUrl);
-          console.log(response)
-          if(response.statusText !== 'OK'){
+          
+          if(response.status !== 200 || !response.data?.access_token){
             setIsLoading(false);
             setIsError(true);
             setError('The operation could not be completed. Failed to exchange code for token.');
