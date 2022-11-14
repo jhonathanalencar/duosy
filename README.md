@@ -16,7 +16,7 @@ git clone https://github.com/jhonathanalencar/duosy.git
 ```
 Entre na pasta do servidor
 ```
-cd server
+cd duosy/server
 ```
 Instale as dependências
 ```
@@ -37,8 +37,7 @@ Se tudo estiver correto, é possível acessar o server em http://localhost:3333
 
 Instale as dependências da aplicação web
 ```
-cd ..
-cd web
+cd ../web
 npm install
 ```
 Adicone as variáveis de ambiente em um arquivo .env na pasta web
