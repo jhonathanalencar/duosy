@@ -28,7 +28,9 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const apiBaseQuery = fetchBaseQuery({ baseUrl: "http://localhost:3333/" });
+const apiBaseQuery = fetchBaseQuery({
+  baseUrl: import.meta.env.VITE_SERVER_URL,
+});
 
 interface AuthorizeResponse {
   access_token: string;
