@@ -10,10 +10,14 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.get("/", (req, res) => {
+  res.sendStatus(200);
+});
+
+app.use(authRouter);
 app.use(gameRouter);
 app.use(adRouter);
 app.use(discordRouter);
-app.use(authRouter);
 
 const PORT = process.env.PORT || 3333;
 
