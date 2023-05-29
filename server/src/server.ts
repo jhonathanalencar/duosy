@@ -1,19 +1,18 @@
-import 'dotenv/config';
-import express from 'express';
-import cors from 'cors';
+import "dotenv/config";
+import express from "express";
+import cors from "cors";
 
-import { 
-  gameRouter, 
-  adRouter, 
-  discordRouter, 
-  authRouter,
-} from './routes';
+import { gameRouter, adRouter, discordRouter, authRouter } from "./routes";
 
 const app = express();
-app.use(cors({ 
-  origin: process.env.APP_URL,
-}));
+
 app.use(express.json());
+app.use(
+  cors({
+    origin: process.env.APP_URL,
+    credentials: true,
+  })
+);
 
 app.use(gameRouter);
 app.use(adRouter);
