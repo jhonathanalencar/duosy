@@ -1,7 +1,7 @@
 import { CorsOptions } from "cors";
 
-const allowedOrigins = [process.env.APP_URL];
-console.log(allowedOrigins);
+import { allowedOrigins } from "./allowedOrigins";
+
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
     console.log(origin, "here");
