@@ -10,6 +10,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.sendStatus(200);
+});
+
 app.use(authRouter);
 app.use(gameRouter);
 app.use(adRouter);
