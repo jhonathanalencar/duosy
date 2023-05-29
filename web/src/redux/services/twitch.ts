@@ -16,6 +16,7 @@ import { setApiToken } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://api.twitch.tv/helix/",
+  credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.apiToken;
 
