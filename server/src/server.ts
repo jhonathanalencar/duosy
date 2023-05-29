@@ -3,15 +3,12 @@ import express from "express";
 import cors from "cors";
 
 import { gameRouter, adRouter, discordRouter, authRouter } from "./routes";
+import { corsOptions } from "./configs/corsOptions";
 
 const app = express();
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: process.env.APP_URL,
-  })
-);
+app.use(cors(corsOptions));
 
 app.use(gameRouter);
 app.use(adRouter);
