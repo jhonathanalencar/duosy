@@ -1,6 +1,6 @@
 import { CorsOptions } from "cors";
 
-const allowedOrigins = [process.env.APP_URL];
+const allowedOrigins = [process.env.APP_URL ?? "https://duosy.vercel.app"];
 console.log(allowedOrigins);
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
