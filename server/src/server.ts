@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.APP_URL,
+    origin: "https://duosy.vercel.app/",
     credentials: true,
   })
 );
