@@ -4,6 +4,7 @@ const allowedOrigins = [process.env.APP_URL];
 console.log(allowedOrigins);
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
+    console.log(origin);
     if (origin && allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
