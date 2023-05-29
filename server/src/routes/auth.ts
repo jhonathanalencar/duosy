@@ -44,9 +44,6 @@ authRouter.get("/auth/authorize", async (request, response) => {
           client_secret: CLIENT_SECRET,
           grant_type: "client_credentials",
         },
-        headers: {
-          Accept: "application/json",
-        },
       }
     );
 
