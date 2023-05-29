@@ -52,7 +52,7 @@ authRouter.get("/auth/authorize", async (request, response) => {
 
     const { access_token } = accessTokenResponse.data;
 
-    response.status(200).json({ access_token });
+    return response.status(200).json({ access_token });
   } catch (error) {
     console.error(error);
     const statusCode = 500;
